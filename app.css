@@ -1,0 +1,365 @@
+
+#userName{
+    border: 5px solid #28a745;
+    padding: 5px;
+    font-size: 25px;
+    font-family: Poppins;
+
+}
+#next {
+    border: 5px solid #28a745;
+    padding: 5px;
+    border-radius: 10px; 
+    width: 150px; 
+    height: 60px; 
+    font-size: 16px;
+}
+h2{
+    margin: 0px;
+
+}
+
+h1{
+    padding: 5px;
+    font-family: Poppins;
+}
+body {
+    font-family: Poppins;
+    text-align: center;
+}
+
+form {
+    margin-top: 50px; 
+}
+
+#userName {
+    width: 300px; 
+    font-size: 16px; 
+}
+
+#output {
+    margin-top: 20px;
+}
+
+.hidden {
+    display: none;
+}
+
+table {
+    margin: 0 auto; 
+}
+input[type="checkbox"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid hsl(0, 0%, 80%);
+    border-radius: 3px;
+    position: relative;
+    cursor: pointer;
+}
+
+input[type="checkbox"]:checked {
+    background-color: green;
+    border-color: green;
+}
+
+input[type="checkbox"]:checked::before {
+    content: '\2714'; /* code for check mark */
+    color: white;
+    display: block;
+    text-align: center;
+    line-height: 20px;
+}
+
+h1 {
+    font-family: "Righteous";
+    color: #28a745;
+    font-size: 50px;
+}
+#next {
+    border-radius: 10px;
+    width: 50px; 
+    height: 60px; 
+    font-size: 20px;
+    font-family: "Righteous";
+    padding: 0 10px;
+}
+
+
+button {
+    font-size: 50px;
+    font-family: "Poppins";
+    font-weight: bold;
+}
+
+#credits {
+    margin-top: 0px;
+    font-size: 14px;
+    color: #555;
+    font-weight: bold;
+}
+
+button[type="button"]{
+    width: 150px;
+    height: 40px;
+    font-size: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+input{
+    width: 150px;
+    height: 40px;
+    font-size: 18px;
+    border-radius: 5px;
+}
+th{
+    color : #28a745;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+#gradeTable input[type="text"]{
+    color : #28a745;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+#gradeTable input[type="number"]{
+    color : #28a745 !important;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+#gradeTable input[type="checkbox"]{
+    color : #28a745;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
+}
+#exit{
+    margin: 0;
+    top: -50;
+    left: -50;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+}
+
+
+.logo-container {
+    position: absolute; 
+    top: 0;
+    left: 0;
+    padding: 5px; 
+}
+.helplabel {
+    position: fixed;
+    top: 100px; 
+    right: 110px;
+    padding: 5px;
+    z-index: 1001; 
+    width: 100px;
+    height: auto;
+}
+.logo-container img {
+    width: 250px;
+    height: auto; 
+}
+.setting img {
+    width: 150px;
+    height: auto;
+}
+.setting {
+    position: fixed;
+    top: 10px; 
+    right: 10px; 
+    padding: 5px;
+    z-index: 1000; 
+}
+.setting img{
+    position: fixed;
+    top : 0;
+    right : 0;
+    padding: 5px;
+}
+.help {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black background */
+    z-index: 9999; /* ensure the overlay appears on top of other content */
+    display: none; /* initially hidden */
+}
+
+.help-content{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+.popup-close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    color: #555;
+}
+#qaSection {
+    margin-top: 20px;
+}
+
+#qaContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+#qaDisplay {
+    width: 100%;
+    height: 150px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+}
+
+#userQuestion {
+    width: 80%;
+    margin-bottom: 10px;
+}
+
+button {
+    width: 100px;
+    
+}
+body {
+    font-family: 'Righteous', cursive;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.help, .helplabel, .logo-container, .setting {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+}
+
+.logo-container img {
+    width: 100px;
+    cursor: pointer;
+    position: fixed;
+}
+
+h1 {
+    font-size: 3em;
+    margin-top: 20px;
+    color: #333;
+}
+
+h2 {
+    font-size: 1.5em;
+    margin: 10px 0;
+    color: #555;
+}
+
+form {
+    margin: 20px 0;
+}
+
+input[type="text"], input[type="number"] {
+    padding: 10px;
+    margin: 10px 0;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #28a745;
+    color: white;
+    cursor: pointer;
+    font-size: 1em;
+    margin: 10px 5px;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+table {
+    width: 80%;
+    margin: 20px 0;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 15px;
+    text-align: center;
+    border: 1px solid #ccc;
+}
+
+th {
+    background-color: #28a745;
+    color: white;
+}
+
+td input[type="text"], td input[type="number"] {
+    width: 90%;
+    padding: 5px;
+    margin: 5px 0;
+}
+
+td input[type="checkbox"] {
+    transform: scale(1.5);
+}
+
+#credits {
+    margin-top: 20px;
+    font-size: 1em;
+    color: #777;
+    top: -20;
+}
+
+#qaSection {
+    margin-top: 40px;
+    width: 80%;
+    text-align: left;
+}
+
+#qaContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#qaDisplay {
+    width: 100%;
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #fff;
+}
+
+#userQuestion {
+    width: 90%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+}
+
+

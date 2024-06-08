@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Righteous&display=swap">
+    <link rel="stylesheet" href="app.css">
+    <script src="app.js" defer></script>
+    <title>GPA Wizard</title>
+</head>
+<body>
+    <div id="help" class="help">
+        <div class="help-content">
+            <button class="popup-close-button" onclick="hidePopup()">X</button> 
+            <h1>How GPA Wizard Works</h1>
+            <h2>1. Enter your name.</h2>
+            <h2>2. Click the arrow button to move forward.</h2>
+            <h2>3. Each row is for a course.</h2>
+            <h2>4. You can skip entering the course name.</h2>
+            <h2>5. Put your grades for each semester.</h2>
+            <h2>6. Check the KAP/AP or dual credit boxes if needed.</h2>
+            <h2>7. Use the buttons to add or remove courses.</h2>
+            <h2>8. Click "Calculate" when all courses are entered.</h2>
+            <h2>9. Your GPA pops up.</h2>
+        </div>
+    </div>
+    
+    
+    <div class="setting">
+        <img src="logo.png" alt="Settings" onclick="settings()">
+    </div>
+    <div class="reload">
+        <img src="reload.png" onclick="reloadPage()">
+    </div>
+   
+    <h2>Enter your name: </h2>
+    
+    <form>
+        <input type="text" id="userName" name="userName" placeholder="Ex: John" autocomplete="off">
+        <button type="button" id="next" onclick="submitName(event)">>></button>
+    </form>
+    <div id="output"></div>
+
+    <table class="hidden" id="gradeTable">
+        <thead>
+            <tr>
+                <th>Course Name</th>
+                <th>Semester 1 (0-100)</th>
+                <th>Semester 2 (0-100)</th>
+                <th>KAP/AP</th>
+                <th>Dual Credit</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- default row -->
+            <tr id="defaultRow">
+                <td><input type="text" name="course1" autocomplete="off"> </td>
+                <td><input type="number" name="g1" min="0" max="100"></td>
+                <td><input type="number" name="g2" min="0" max="100"></td>
+                <td><input type="checkbox" name="kapApCheckbox"></td>
+                <td><input type="checkbox" name="dualCreditCheckbox"></td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <div>
+        <button type="button" onclick="addRow()">Add Row</button>
+        <button type="button" onclick="removerow(document.getElementById('gradeTable'))">Remove</button>
+        <button type="button" onclick="calculate()">Calculate</button>
+        <button type="button" id="save" onclick="save()">Save</button>    
+        <button type="button" onclick="toggleAudio()">Audio</button>
+    </div>
+    
+    
+
+    <div id="qaSection">
+        <h2>Interactive Q&A</h2>
+        <div id="qaContainer">
+            <div id="qaDisplay"></div>
+            <input type="text" id="userQuestion" placeholder="Ask a question...">
+            <button onclick="askQuestion()">Ask</button>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function () {
+            loadInput();
+        };
+    
+        document.getElementById('gradeTable').addEventListener('change', function(event) {
+            // check if the event target is a checkbox
+            if (event.target.type === 'checkbox') {
+                // Find the row that contains the changed checkbox
+                let row = event.target.closest('tr');
+                // if in row
+                if (row) {
+                    // get all checkboxes within the same row
+                    let checkboxesInRow = row.querySelectorAll('input[type="checkbox"]');
+                    // Uncheck all other checkboxes in the same row except for the current
+                    checkboxesInRow.forEach(checkbox => {
+                        if (checkbox !== event.target) {
+                            checkbox.checked = false;
+                        }
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>
