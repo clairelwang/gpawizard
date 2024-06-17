@@ -51,31 +51,23 @@ function submitName(event) {
 // what if tool 
 // analyze 
 function addRow() {
-    var userName = document.getElementById("userName").value;
-    if (!userName) {
-        window.alert("Please submit your name!");
-        return;
+    const table = document.getElementById("gradeTable").querySelector("tbody");
+    
+    // Check if saving is in progress
+    if (document.querySelector('#gradeTable tr.saving')) {
+        return; 
     }
-    var table = document.querySelector("table");
-    if (table) {
-        var lastRowIndex = table.rows.length;
-        var newRow = table.insertRow(lastRowIndex);
 
-        for (var i = 0; i < 5; i++) { // Changed starting index to 0
-            var cell = newRow.insertCell(i);
-            cell.innerHTML = '<input type="text">';
-            if (i === 1) { // Changed condition to match starting index
-                cell.innerHTML = '<input type="number" min="0" max="100">';
-            } else if (i === 2) { // Updated condition to 1
-                cell.innerHTML = '<input type="number" min="0" max="100" class="semester2">';
-            } else if (i === 3 || i === 4) { // Updated condition for checkboxes
-                cell.innerHTML = '<input type="checkbox">';
-            }
-        }
-        document.getElementById('defaultRow').style.display = 'none';
-    } else {
-        console.error("Table not found");
-    }
+    const newRow = table.insertRow(table.rows.length); // insrte at the end of tbody
+
+
+    const defaultRow = document.getElementById("defaultRow");
+    newRow.innerHTML = defaultRow.innerHTML;
+
+   
+    newRow.querySelectorAll('input').forEach(input => input.value = '');
+
+    return newRow;
 }
 
 window.onload = function () {
@@ -105,8 +97,6 @@ function removerow(table) {
         } else {
             alert("You cannot delete the titles.");
         }
-    } else {
-        alert("You can not delete this.");
     }
 }
 
@@ -123,54 +113,32 @@ window.addEventListener('beforeunload', function () {
 // once processed saves rowdata array into local storage a sa json string using localStorage
 // ensures preservation
 function save() {
-    var userName = document.getElementById("userName").value;
-    if (!userName) {
-        window.alert("Please submit your name!");
-        return;
-    }
-    const table = document.getElementById("gradeTable");
-    const rowsData = [];
-    for (let i = 1; i < table.rows.length; i++) { 
-        const row = table.rows[i];
-        const rowData = [];
-        const inputs = row.querySelectorAll("input");
-        inputs.forEach(function (input) {
-            if (input.type === "checkbox") {
-                rowData.push(input.checked); // correctly saves the checkbox state
-            } else {
-                rowData.push(input.value); // saves the value for other input types
-            }
-        });
-        rowsData.push(rowData);
-    }
-    localStorage.setItem("inputData", JSON.stringify(rowsData));
-    window.alert("Data saved successfully!")
+    const rows = document.querySelectorAll("#gradeTable tbody tr");
+    const data = [];
+    rows.forEach(row => {
+        const rowData = {
+            course: row.querySelector('input[name^="course"]').value,
+            g1: row.querySelector('input[name^="g1"]').value,
+            g2: row.querySelector('input[name^="g2"]').value,
+            kapAp: row.querySelector('input[name^="kapApCheckbox"]').checked,
+            dualCredit: row.querySelector('input[name^="dualCreditCheckbox"]').checked
+        };
+        data.push(rowData);
+    });
+    localStorage.setItem('grades', JSON.stringify(data));
 }
 
 // displays table with relevence; retreiving previously saved input from local storage
 // access previous 
 function loadInput() {
-    var data = JSON.parse(localStorage.getItem("inputData")) || [];
-    let ndata = [];
-    for(let i = 1; i < data.length; i++){
-        ndata.push(data[i]);
-    }data = ndata;
-   
-    var table = document.getElementById("gradeTable").getElementsByTagName("tbody")[0];
-
-    // Clear the table before loading saved rows
-    while (table.rows.length > 2) {
-        table.deleteRow(1);
-    }
-
-    // Insert saved rows
-    data.forEach(function (item) {
-        var newRow = table.insertRow();
-        newRow.insertCell().innerHTML = '<input type="text" value="' + (item[0] || '') + '">';
-        newRow.insertCell().innerHTML = '<input type="number" value="' + (item[1] || '') + '">';
-        newRow.insertCell().innerHTML = '<input type="number" value="' + (item[2] || '') + '">';
-        newRow.insertCell().innerHTML = '<input type="checkbox" ' + (item[3] ? 'checked' : '') + '>';
-        newRow.insertCell().innerHTML = '<input type="checkbox" ' + (item[4] ? 'checked' : '') + '>';
+    const data = JSON.parse(localStorage.getItem('grades')) || [];
+    data.forEach(item => {
+        const row = addRow();
+        row.querySelector('input[name^="course"]').value = item.course;
+        row.querySelector('input[name^="g1"]').value = item.g1;
+        row.querySelector('input[name^="g2"]').value = item.g2;
+        row.querySelector('input[name^="kapApCheckbox"]').checked = item.kapAp;
+        row.querySelector('input[name^="dualCreditCheckbox"]').checked = item.dualCredit;
     });
 }
 
@@ -187,6 +155,7 @@ window.onload = function () {
 window.addEventListener('beforeunload', function () {
     save();
 });
+
 
 // VALADITY
 function checkGradesValidity() {
@@ -209,7 +178,7 @@ function checkGradesValidity() {
     }
 
     if (!isValid) {
-        window.alert("Invalid grade entered! Grades should be between 0 and 100.");
+        return false;
     }
 }
 
@@ -242,7 +211,6 @@ function processUserData() {
 
 // initailizes arrays
 function calculate() {
-    checkGradesValidity();
     var valid = true;
     // check if name is submitted
     var userName = document.getElementById("userName").value;
@@ -306,6 +274,7 @@ function calculate() {
             else if (grade > 100 || grade < 0){
                 window.alert("Please enter a valid grade (0-100)!");
                 valid = false;
+                return;
             }
         } else if (courseDual[i] == true) {
             if (grade >= 89.5 && grade <= 100) {
@@ -321,6 +290,7 @@ function calculate() {
             else if (grade < 0 || grade > 100){
                 window.alert("Please enter a valid grade (0-100)!");
                 valid = false;
+                return;
             }
         } else {
             if (grade >= 89.5 && grade <= 100) {
@@ -332,10 +302,12 @@ function calculate() {
             } else if (grade >= 69.5 && grade <= 100) {
                 sum1 += 2;
                 us+=2;
+                
             }
             else if (grade < 0 || grade > 100){
                 window.alert("Please enter a valid grade (0-100)!");
                 valid = false;
+                return;
             }
         }
     }
@@ -364,6 +336,7 @@ function calculate() {
             else if (grade < 0 || grade > 100){
                 window.alert("Please enter a valid grade (0-100)!");
                 valid = false;
+                return;
             }
         } else if (courseDual[i] == true) {
             if (grade >= 89.5 && grade <= 100) {
@@ -379,6 +352,7 @@ function calculate() {
             else if (grade < 0 || grade > 100){
                 window.alert("Please enter a valid grade (0-100)!");
                 valid = false;
+                return;
             }
         } else {
             if (grade >= 89.5 && grade <= 100) {
@@ -394,6 +368,7 @@ function calculate() {
             else if (grade < 0 || grade > 100){
                 window.alert("Please enter a valid grade (0-100)!");
                 valid = false;
+                return;
             }
         }
     }
