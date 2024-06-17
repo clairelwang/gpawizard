@@ -24,15 +24,14 @@
             <h2>9. Your GPA pops up.</h2>
         </div>
     </div>
-    
-    
+
     <div class="setting">
         <img src="images/logo.png" alt="Settings" onclick="settings()">
     </div>
     <div class="reload">
         <img src="images/reload.png" onclick="reloadPage()">
     </div>
-   
+
     <h2>Enter your name: </h2>
     
     <form>
@@ -53,7 +52,7 @@
         </thead>
         <tbody>
             <!-- default row -->
-            <tr id="defaultRow">
+            <tr id="defaultRow" style="display: none;">
                 <td><input type="text" name="course1" autocomplete="off"> </td>
                 <td><input type="number" name="g1" min="0" max="100"></td>
                 <td><input type="number" name="g2" min="0" max="100"></td>
@@ -62,16 +61,14 @@
             </tr>
         </tbody>
     </table>
-    
+
     <div>
         <button type="button" onclick="addRow()">Add Row</button>
         <button type="button" onclick="removerow(document.getElementById('gradeTable'))">Remove</button>
         <button type="button" onclick="calculate()">Calculate</button>
-        <button type="button" id="save" onclick="save()">Save</button>    
+        <button type="button" id="save" onclick="save()">Save</button>
         <button type="button" onclick="toggleAudio()">Audio</button>
     </div>
-    
-    
 
     <div id="qaSection">
         <h2>Interactive Q&A</h2>
@@ -88,15 +85,10 @@
         };
     
         document.getElementById('gradeTable').addEventListener('change', function(event) {
-            // check if the event target is a checkbox
             if (event.target.type === 'checkbox') {
-                // Find the row that contains the changed checkbox
                 let row = event.target.closest('tr');
-                // if in row
                 if (row) {
-                    // get all checkboxes within the same row
                     let checkboxesInRow = row.querySelectorAll('input[type="checkbox"]');
-                    // Uncheck all other checkboxes in the same row except for the current
                     checkboxesInRow.forEach(checkbox => {
                         if (checkbox !== event.target) {
                             checkbox.checked = false;
