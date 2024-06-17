@@ -46,40 +46,26 @@ function submitName(event) {
     document.querySelector("table").classList.remove("hidden");
 }
 
-
-// allows the addition of a new section with input fields. 
-// what if tool 
-// analyze 
+// allows the addition of a new section with input fields.
+// what if tool
+// analyze
 function addRow() {
+    var userName = document.getElementById("userName").value;
+    if (!userName) {
+        window.alert("Please submit your name!");
+        return;
+    }
     const table = document.getElementById("gradeTable").querySelector("tbody");
-    
-    // Check if saving is in progress
-    if (document.querySelector('#gradeTable tr.saving')) {
-        return; 
-    }
+    const newRow = table.insertRow();
 
-    const newRow = table.insertRow(table.rows.length); // insrte at the end of tbody
-
-
-    const defaultRow = document.getElementById("defaultRow");
-    newRow.innerHTML = defaultRow.innerHTML;
-
-   
-    newRow.querySelectorAll('input').forEach(input => input.value = '');
-
-    return newRow;
+    newRow.innerHTML = `
+        <td><input type="text" name="course" autocomplete="off"></td>
+        <td><input type="number" name="g1" min="0" max="100"></td>
+        <td><input type="number" name="g2" min="0" max="100"></td>
+        <td><input type="checkbox" name="kapApCheckbox"></td>
+        <td><input type="checkbox" name="dualCreditCheckbox"></td>
+    `;
 }
-
-window.onload = function () {
-    var savedData = localStorage.getItem("inputData");
-    if (!savedData) {
-        document.getElementById('defaultRow').style.display = 'table-row';
-    } else {
-        loadInput();
-    }
-};
-
-// this deletes the last row from the table that the user no longer wants to use; updates
 function removerow(table) {
     var userName = document.getElementById("userName").value;
     if (!userName) {
@@ -100,63 +86,58 @@ function removerow(table) {
     }
 }
 
-function reloadPage() {
-    window.location.reload();
-}
-
-window.addEventListener('beforeunload', function () {
-    save();
-});
-
-// initializes row data
-// loops through each row of the table; each row's input is saved securly. pushes row data into row data arra
-// once processed saves rowdata array into local storage a sa json string using localStorage
-// ensures preservation
 function save() {
     const rows = document.querySelectorAll("#gradeTable tbody tr");
     const data = [];
     rows.forEach(row => {
         const rowData = {
-            course: row.querySelector('input[name^="course"]').value,
-            g1: row.querySelector('input[name^="g1"]').value,
-            g2: row.querySelector('input[name^="g2"]').value,
-            kapAp: row.querySelector('input[name^="kapApCheckbox"]').checked,
-            dualCredit: row.querySelector('input[name^="dualCreditCheckbox"]').checked
+            course: row.querySelector('input[name="course"]').value,
+            g1: row.querySelector('input[name="g1"]').value,
+            g2: row.querySelector('input[name="g2"]').value,
+            kapAp: row.querySelector('input[name="kapApCheckbox"]').checked,
+            dualCredit: row.querySelector('input[name="dualCreditCheckbox"]').checked
         };
         data.push(rowData);
     });
     localStorage.setItem('grades', JSON.stringify(data));
+    window.alert("Data saved successfuly!");
 }
 
-// displays table with relevence; retreiving previously saved input from local storage
-// access previous 
 function loadInput() {
     const data = JSON.parse(localStorage.getItem('grades')) || [];
+    const table = document.getElementById("gradeTable").querySelector("tbody");
+    table.innerHTML = '';  // Clear existing rows
+
     data.forEach(item => {
-        const row = addRow();
-        row.querySelector('input[name^="course"]').value = item.course;
-        row.querySelector('input[name^="g1"]').value = item.g1;
-        row.querySelector('input[name^="g2"]').value = item.g2;
-        row.querySelector('input[name^="kapApCheckbox"]').checked = item.kapAp;
-        row.querySelector('input[name^="dualCreditCheckbox"]').checked = item.dualCredit;
+        const newRow = table.insertRow();
+        newRow.innerHTML = `
+            <td><input type="text" name="course" value="${item.course}"></td>
+            <td><input type="number" name="g1" value="${item.g1}" min="0" max="100"></td>
+            <td><input type="number" name="g2" value="${item.g2}" min="0" max="100"></td>
+            <td><input type="checkbox" name="kapApCheckbox" ${item.kapAp ? "checked" : ""}></td>
+            <td><input type="checkbox" name="dualCreditCheckbox" ${item.dualCredit ? "checked" : ""}></td>
+        `;
     });
 }
 
 window.onload = function () {
-    var savedData = localStorage.getItem("inputData");
-    if (!savedData) {
-        document.getElementById('defaultRow').style.display = 'table-row';
-    } else {
-        loadInput();
-    }
-    //loadInput(); // Call loadInput here to ensure it's executed only once
+    loadInput();
 };
 
-window.addEventListener('beforeunload', function () {
-    save();
+document.getElementById('gradeTable').addEventListener('change', function(event) {
+    if (event.target.type === 'checkbox') {
+        let row = event.target.closest('tr');
+        if (row) {
+            let checkboxesInRow = row.querySelectorAll('input[type="checkbox"]');
+            checkboxesInRow.forEach(checkbox => {
+                if (checkbox !== event.target) {
+                    checkbox.checked = false;
+                }
+            });
+        }
+    }
 });
-
-
+    
 // VALADITY
 function checkGradesValidity() {
     var table = document.getElementById("gradeTable");
@@ -171,7 +152,7 @@ function checkGradesValidity() {
             if (grade < 0) {
                 isValid = false;
             }
-            if (grade > 100){
+            if (grade > 100) {
                 isValid = false;
             }
         });
@@ -188,33 +169,34 @@ function processUserData() {
     var courses = [];
 
     var table = document.getElementById("gradeTable");
-    for (var i = 0; i < table.rows.length; i++) {
-        var courseName = table.rows[i].cells[0].querySelector("input").value;
-        var gradePercentage = table.rows[i].cells[1].querySelector("input").value;
-        var sem2 = table.rows[i].cells[2].querySelector("#g2").value;
-        var isKAPAP = table.rows[i].cells[3].querySelector("input").checked;
-        var isDual = table.rows[i].cells[4].querySelector("#check2").checked;
+for (var i = 0; i < table.rows.length; i++) {
+    var courseName = table.rows[i].cells[0].querySelector("input").value;
+    var gradePercentage = table.rows[i].cells[1].querySelector("input").value;
+    var sem2 = table.rows[i].cells[2].querySelector("#g2").value;
+    var isKAPAP = table.rows[i].cells[3].querySelector("input").checked;
+    var isDual = table.rows[i].cells[4].querySelector("#check2").checked;
 
-        var course = {
-            courseName: courseName,
-            gradePercentage: gradePercentage,
-            sem2: sem2,
-            isKAPAP: isKAPAP
-        };
+    var course = {
+        courseName: courseName,
+        gradePercentage: gradePercentage,
+        sem2: sem2,
+        isKAPAP: isKAPAP
+    };
 
-        courses.push(course);
-    }
+    courses.push(course);
+}
 
-    console.log("User: " + userName);
-    console.log("Courses:", courses);
+console.log("User: " + userName);
+console.log("Courses:", courses);
 }
 
 // initailizes arrays
 function calculate() {
+    checkGradesValidity();
     var valid = true;
     // check if name is submitted
     var userName = document.getElementById("userName").value;
-    if (!userName){
+    if (!userName) {
         window.alert("Please submit your name first!");
         return;
     }
@@ -229,7 +211,7 @@ function calculate() {
         var row = table.rows[i];
         var isEditing = row.classList.contains("editing");
         var isSaving = row.classList.contains("saving");
-        
+
         if (!isEditing && !isSaving) { // Exclude rows being edited or saved
             console.log(row.cells[0].innerHTML)
             var inputElement = row.cells[1].querySelector("input");
@@ -239,12 +221,12 @@ function calculate() {
                 continue; // skip to the next row if input element is not found
             }
             var gradePercentage1 = parseFloat(inputElement.value);
-            
+
             var inputElement2 = row.cells[2].querySelector("input");
             var gradePercentage2 = parseFloat(inputElement2.value);
             var isKAPAP = row.cells[3].querySelector("input").checked;
             var isDual = row.cells[4].querySelector("input").checked;
-    
+
             scores1.push(gradePercentage1);
             scores2.push(gradePercentage2);
             courseType.push(isKAPAP);
@@ -263,15 +245,15 @@ function calculate() {
         if (courseType[i] == true) {
             if (grade >= 89.5 && grade <= 100) {
                 sum1 += 5;
-                us+=4;
+                us += 4;
             } else if (grade >= 79.5 && grade <= 100) {
                 sum1 += 4;
-                us+=3;
+                us += 3;
             } else if (grade >= 69.5 && grade <= 100) {
                 sum1 += 3;
-                us+=2;
+                us += 2;
             }
-            else if (grade > 100 || grade < 0){
+            else if (grade > 100 || grade < 0) {
                 window.alert("Please enter a valid grade (0-100)!");
                 valid = false;
                 return;
@@ -279,15 +261,15 @@ function calculate() {
         } else if (courseDual[i] == true) {
             if (grade >= 89.5 && grade <= 100) {
                 sum1 += 4.5;
-                us+=4;
+                us += 4;
             } else if (grade >= 79.5 && grade < 100) {
                 sum1 += 3.5;
-                us+=3;
+                us += 3;
             } else if (grade >= 69.5 && grade < 100) {
                 sum1 += 2.5;
-                us+=2; 
+                us += 2;
             }
-            else if (grade < 0 || grade > 100){
+            else if (grade < 0 || grade > 100) {
                 window.alert("Please enter a valid grade (0-100)!");
                 valid = false;
                 return;
@@ -295,16 +277,15 @@ function calculate() {
         } else {
             if (grade >= 89.5 && grade <= 100) {
                 sum1 += 4;
-                us+=4;
+                us += 4;
             } else if (grade >= 79.5 && grade <= 100) {
                 sum1 += 3;
-                us+=3;
+                us += 3;
             } else if (grade >= 69.5 && grade <= 100) {
                 sum1 += 2;
-                us+=2;
-                
+                us += 2;
             }
-            else if (grade < 0 || grade > 100){
+            else if (grade < 0 || grade > 100) {
                 window.alert("Please enter a valid grade (0-100)!");
                 valid = false;
                 return;
@@ -325,15 +306,15 @@ function calculate() {
         if (courseType[i] == true) {
             if (grade >= 89.5 && grade <= 100) {
                 sum2 += 5;
-                us2+=4;
+                us2 += 4;
             } else if (grade >= 79.5 && grade <= 100) {
                 sum2 += 4;
-                us2+=3;
+                us2 += 3;
             } else if (grade >= 69.5 && grade <= 100) {
                 sum2 += 3;
-                us2+=2;
+                us2 += 2;
             }
-            else if (grade < 0 || grade > 100){
+            else if (grade < 0 || grade > 100) {
                 window.alert("Please enter a valid grade (0-100)!");
                 valid = false;
                 return;
@@ -341,15 +322,15 @@ function calculate() {
         } else if (courseDual[i] == true) {
             if (grade >= 89.5 && grade <= 100) {
                 sum2 += 4.5;
-                us2+=4;
+                us2 += 4;
             } else if (grade >= 79.5 && grade <= 100) {
                 sum2 += 3.5;
-                us2+=3;
+                us2 += 3;
             } else if (grade >= 69.5 && grade <= 100) {
-                sum2 += 2.5; 
-                us2+=2;
+                sum2 += 2.5;
+                us2 += 2;
             }
-            else if (grade < 0 || grade > 100){
+            else if (grade < 0 || grade > 100) {
                 window.alert("Please enter a valid grade (0-100)!");
                 valid = false;
                 return;
@@ -357,15 +338,15 @@ function calculate() {
         } else {
             if (grade >= 89.5 && grade <= 100) {
                 sum2 += 4;
-                us2+=4;
+                us2 += 4;
             } else if (grade >= 79.5 && grade <= 100) {
                 sum2 += 3;
-                us2+=3;
+                us2 += 3;
             } else if (grade >= 69.5 && grade <= 100) {
                 sum2 += 2;
                 us2 += 2;
             }
-            else if (grade < 0 || grade > 100){
+            else if (grade < 0 || grade > 100) {
                 window.alert("Please enter a valid grade (0-100)!");
                 valid = false;
                 return;
@@ -377,16 +358,16 @@ function calculate() {
 
     console.log("SUM 2 " + sum2);
     console.log("SUM 1 " + sum1);
-   if (valid == true)
-    window.alert(userName + ", your weighted GPA is " + (gpa1+gpa2)/2 + "\n" + userName + ", your unweighted GPA is " + (un1+ un2)/2 );
+    if (valid == true)
+        window.alert(userName + ", your weighted GPA is " + (gpa1 + gpa2) / 2 + "\n" + userName + ", your unweighted GPA is " + (un1 + un2) / 2);
 }
-    
-    
-    /*console.log(sum);
-    console.log(numClasses);
-    console.log(scores);
-    console.log(courseType);
-    console.log(gpa);*/
+
+
+/*console.log(sum);
+console.log(numClasses);
+console.log(scores);
+console.log(courseType);
+console.log(gpa);*/
 
 var currentlySpeaking = false; // Track if speech synthesis is currently active
 var utterance = null; // Track the current utterance
@@ -398,6 +379,9 @@ function toggleAudio() {
     } else {
         readPageContent(); // Start speaking if not already speaking
     }
+}
+function reloadPage(){
+    window.location.reload();
 }
 // iterates through each row and input
 // synthesized voice
@@ -424,11 +408,11 @@ function readPageContent() {
     utterance = new SpeechSynthesisUtterance(content);
 
     // Event listeners for speaking and stopping speech
-    utterance.onstart = function() {
+    utterance.onstart = function () {
         currentlySpeaking = true;
     };
 
-    utterance.onend = function() {
+    utterance.onend = function () {
         currentlySpeaking = false;
     };
 
@@ -451,7 +435,7 @@ const qaPairs = {
     "how do i add a new class": "To add a new course, click the 'Add Row' button at the bottom of the table.",
     "how do i add a new class?": "To add a new course, click the 'Add Row' button at the bottom of the table.",
     "how do i add a class": "To add a new course, click the 'Add Row' button at the bottom of the table.",
-    "how do i save my data?": "To save your data, click the 'Save' button. Your data will be stored locally.",  
+    "how do i save my data?": "To save your data, click the 'Save' button. Your data will be stored locally.",
     "how do i calculate my gpa?": "Enter your grades and click the 'Calculate' button to see your GPA.",
     "how do i select an academic course": "Do not click any check boxes. This sets the class to a 4 point or academic scale.",
     "what is a kap course?": "KAP courses are honor classes that are on a 5 point scale.",
@@ -483,17 +467,18 @@ window.onload = function () {
     document.getElementById('defaultRow').style.display = 'table-row';
     loadInput();
     // Q&A section
-    document.getElementById("userQuestion").addEventListener("keypress", function(event) {
+    document.getElementById("userQuestion").addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
             askQuestion();
         }
     });
 };
-   
-    
-    /*console.log(sum);
-    console.log(numClasses);
-    console.log(scores);
-    console.log(courseType);
-    console.log(gpa);*/
+
+
+/*console.log(sum);
+console.log(numClasses);
+console.log(scores);
+console.log(courseType);
+console.log(gpa);*/
+
 
