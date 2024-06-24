@@ -1,29 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Righteous&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
     <link rel="stylesheet" href="app.css">
     <script src="app.js" defer></script>
     <title>GPA Wizard</title>
 </head>
+
+
 <body>
     <div id="help" class="help">
         <div class="help-content">
-            <button class="popup-close-button" onclick="hidePopup()">X</button> 
-            <h1>How GPA Wizard Works</h1>
-            <h2>1. Enter your name.</h2>
-            <h2>2. Click the arrow button to move forward.</h2>
-            <h2>3. Each row is for a course.</h2>
-            <h2>4. You can skip entering the course name.</h2>
-            <h2>5. Put your grades for each semester.</h2>
-            <h2>6. Check the KAP/AP or dual credit boxes if needed.</h2>
-            <h2>7. Use the buttons to add or remove courses.</h2>
-            <h2>8. Click "Calculate" when all courses are entered.</h2>
-            <h2>9. Your GPA pops up.</h2>
+            <button class="popup-close-button" onclick="hidePopup()">X</button>
+            <h1>GPA Wizard Help Menu</h1>
+            <div class="section">
+                <h2>Step-by-Step Instructions</h2>
+                <ul>
+                    <li>1. Enter your name.</li>
+                    <li>2. Click the arrow button to move forward.</li>
+                    <li>3. Each row is for a course.</li>
+                    <li>4. You can skip entering the course name.</li>
+                    <li>5. Put your grades for each semester.</li>
+                    <li>6. Check the Honors/AP or dual credit boxes if needed. (Academic Courses require no checkboxes)</li>
+                    <li>7. Use the buttons to add or remove courses.</li>
+                    <li>8. Click "Calculate" when all courses are entered.</li>
+                    <li>9. Your GPA pops up.</li>
+                </ul>
+            </div>
+            <div class="section">
+                <h2>Frequently Asked Questions</h2>
+                <ul>
+                    <li><b>Q: How do I add a course?</b> A: Use the "Add Row" button to add a new course row.</li>
+                    <li><b>Q: How do I calculate my GPA?</b> A: After entering all your grades, click the "Calculate" button.</li>
+                    <li><b>Q: Can I edit my grades after calculating the GPA?</b> A: Yes, you can edit your grades and recalculate.</li>
+                </ul>
+            </div>
+            <div class="section">
+                <h2>Tips for Improving Your GPA</h2>
+                <ul>
+                    <li>1. Stay organized and keep track of assignment deadlines.</li>
+                    <li>2. Attend all your classes and participate actively.</li>
+                    <li>3. Seek help from teachers and peers when needed.</li>
+                    <li>4. Take advantage of extra credit opportunities.</li>
+                    <li>5. Balance your course load to avoid being overwhelmed.</li>
+                </ul>
+            </div>
+            <div class="section">
+                <h2>Resources</h2>
+                <ul>
+                    <li><a href="https://shorturl.at/miYcn" target="_blank">GPA Wizard Form for Additional Assistance</a></li>
+                    <li><a href="https://www.katyisd.org/THS" target="_blank">Taylor Highschool Home Page</a></li>
+                    <li><a href="https://myapps.classlink.com/home" target="_blank">MyKaty Login</a></li>
+                    <li><a href="https://homeaccess.katyisd.org/HomeAccess/Account/LogOn?ReturnUrl=%2fHomeAccess" target="_blank">Home Access Center</a></li>
+                </ul>
+            </div>
         </div>
     </div>
+    
 
     <div class="setting">
         <img src="images/logo.png" alt="Settings" onclick="settings()">
@@ -31,9 +67,8 @@
     <div class="reload">
         <img src="images/reload2.png" onclick="reloadPage()">
     </div>
-
     <h2>Enter your name: </h2>
-    
+
     <form>
         <input type="text" id="userName" name="userName" placeholder="Ex: John" autocomplete="off">
         <button type="button" id="next" onclick="submitName(event)">>></button>
@@ -46,7 +81,7 @@
                 <th>Course Name</th>
                 <th>Semester 1 (0-100)</th>
                 <th>Semester 2 (0-100)</th>
-                <th>KAP/AP</th>
+                <th>Honors/AP</th>
                 <th>Dual Credit</th>
             </tr>
         </thead>
@@ -80,11 +115,19 @@
     </div>
 
     <script>
+        function hidePopup() {
+            document.getElementById('help').style.display = 'none';
+        }
+
+        function showPopup() {
+            document.getElementById('help').style.display = 'block';
+        }
+
         window.onload = function () {
             loadInput();
         };
-    
-        document.getElementById('gradeTable').addEventListener('change', function(event) {
+
+        document.getElementById('gradeTable').addEventListener('change', function (event) {
             if (event.target.type === 'checkbox') {
                 let row = event.target.closest('tr');
                 if (row) {
@@ -99,4 +142,5 @@
         });
     </script>
 </body>
+
 </html>
