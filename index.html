@@ -6,10 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
     <link rel="stylesheet" href="app.css">
-    <script src="app.js" defer></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<script src="app.js" defer></script>
+
     <title>GPA Wizard</title>
 </head>
-
 
 <body>
     <div id="help" class="help">
@@ -24,7 +26,8 @@
                     <li>3. Each row is for a course.</li>
                     <li>4. You can skip entering the course name.</li>
                     <li>5. Put your grades for each semester.</li>
-                    <li>6. Check the Honors/AP or dual credit boxes if needed. (Academic Courses require no checkboxes)</li>
+                    <li>6. Check the Honors/AP or dual credit boxes if needed. (Academic Courses require no
+                        checkboxes)</li>
                     <li>7. Use the buttons to add or remove courses.</li>
                     <li>8. Click "Calculate" when all courses are entered.</li>
                     <li>9. Your GPA pops up.</li>
@@ -34,8 +37,10 @@
                 <h2>Frequently Asked Questions</h2>
                 <ul>
                     <li><b>Q: How do I add a course?</b> A: Use the "Add Row" button to add a new course row.</li>
-                    <li><b>Q: How do I calculate my GPA?</b> A: After entering all your grades, click the "Calculate" button.</li>
-                    <li><b>Q: Can I edit my grades after calculating the GPA?</b> A: Yes, you can edit your grades and recalculate.</li>
+                    <li><b>Q: How do I calculate my GPA?</b> A: After entering all your grades, click the "Calculate"
+                        button.</li>
+                    <li><b>Q: Can I edit my grades after calculating the GPA?</b> A: Yes, you can edit your grades and
+                        recalculate.</li>
                 </ul>
             </div>
             <div class="section">
@@ -51,21 +56,23 @@
             <div class="section">
                 <h2>Resources</h2>
                 <ul>
-                    <li><a href="https://shorturl.at/miYcn" target="_blank">GPA Wizard Form for Additional Assistance</a></li>
+                    <li><a href="https://shorturl.at/miYcn" target="_blank">GPA Wizard Form for Additional
+                            Assistance</a></li>
                     <li><a href="https://www.katyisd.org/THS" target="_blank">Taylor Highschool Home Page</a></li>
                     <li><a href="https://myapps.classlink.com/home" target="_blank">MyKaty Login</a></li>
-                    <li><a href="https://homeaccess.katyisd.org/HomeAccess/Account/LogOn?ReturnUrl=%2fHomeAccess" target="_blank">Home Access Center</a></li>
+                    <li><a href="https://homeaccess.katyisd.org/HomeAccess/Account/LogOn?ReturnUrl=%2fHomeAccess"
+                            target="_blank">Home Access Center</a></li>
                 </ul>
             </div>
         </div>
     </div>
-    
+
 
     <div class="setting">
-        <img src="images/logo.png" alt="Settings" onclick="settings()">
+        <img src="logo.png" alt="Settings" onclick="settings()">
     </div>
     <div class="reload">
-        <img src="images/reload2.png" onclick="reloadPage()">
+        <img src="reload.png" onclick="reloadPage()">
     </div>
     <h2>Enter your name: </h2>
 
@@ -96,6 +103,8 @@
             </tr>
         </tbody>
     </table>
+    <button onclick="generatePDF()">Generate PDF</button>
+
 
     <div>
         <button type="button" onclick="addRow()">Add Row</button>
@@ -115,18 +124,7 @@
     </div>
 
     <script>
-        function hidePopup() {
-            document.getElementById('help').style.display = 'none';
-        }
-
-        function showPopup() {
-            document.getElementById('help').style.display = 'block';
-        }
-
-        window.onload = function () {
-            loadInput();
-        };
-
+        // multiple checkboxes cant be clicked
         document.getElementById('gradeTable').addEventListener('change', function (event) {
             if (event.target.type === 'checkbox') {
                 let row = event.target.closest('tr');
@@ -140,7 +138,17 @@
                 }
             }
         });
+        function generatePDF() {
+            var doc = new jsPDF();
+
+            // Example: Add text to the PDF
+            doc.text('Hello world!', 10, 10);
+
+            // Example: Save the PDF
+            doc.save('test.pdf');
+        }
     </script>
 </body>
 
 </html>
+
