@@ -1,5 +1,4 @@
 
-
 #userName {
     border: 5px solid #28a745;
     padding: 5px;
@@ -384,7 +383,12 @@ td input[type="text"], td input[type="number"] {
 td input[type="checkbox"] {
     transform: scale(1.5);
 }
-
+#next {
+    font-size: 20px;
+    font-family: "Righteous";
+    font-family: "Poppins";
+    font-weight: bold;
+}
 #credits {
     margin-top: -10px;
     font-size: 1em;
@@ -427,5 +431,7 @@ td input[type="checkbox"] {
     border: 2px solid #ccc;
     border-radius: 5px;
 }
+
+
 
 
