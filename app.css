@@ -134,7 +134,18 @@ body, html {
     padding: 0;
 }
 
-
+.print {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: auto;
+}
+@media print {
+    .fixed-image {
+        display: none;
+    }
+}
 .logo-container {
     position: absolute; 
     top: 0;
@@ -143,16 +154,15 @@ body, html {
 }
 .helplabel {
     position: fixed;
-    top: 100px; 
-    right: 110px;
+    top: -30px; 
+    right: 50px;
     padding: 5px;
     z-index: 1001; 
     width: 100px;
     height: auto;
 }
 .logo-container img {
-    width: 250px;
-    height: auto; 
+    width: 500px;
 }
 .setting {
     position: fixed;
@@ -302,7 +312,7 @@ h1, h2 {
 }
 
 
-.help, .helplabel, .logo-container, .setting {
+.help,  .logo-container, .setting {
     position: fixed;
     top: 10px;
     right: 10px;
@@ -389,6 +399,12 @@ td input[type="checkbox"] {
     font-family: "Poppins";
     font-weight: bold;
 }
+#helptitles{
+    top: -1020;
+    color : #28a745;
+    font-size: 30; 
+    font-family: Poppins;
+}
 #credits {
     margin-top: -10px;
     font-size: 1em;
@@ -431,6 +447,7 @@ td input[type="checkbox"] {
     border: 2px solid #ccc;
     border-radius: 5px;
 }
+
 
 
 
