@@ -18,20 +18,7 @@ function hidePopup() {
 function setting() {
     window.location.reloadPage();
 }
-// checks validity of the input field; if invalid, a pop up appears prompting resubmission
-// when valid - retrieves name and stores; displays welcome; removes hidden
-function submitName(event) {
-    var userName = document.getElementById("userName").value;
-    if (!userName) {
-        window.alert("Please submit your name!");
-        return;
-    }
-    var userName = document.getElementById("userName").value;
-    var outputDiv = document.getElementById("output");
-    outputDiv.innerHTML = "<h2>Welcome, " + userName + "!</h2>";
-    document.querySelector("table").classList.remove("hidden");
-}
-// help menu
+// repeat
 function settings() {
     var tables = document.getElementsByTagName("table");
     for (var i = 0; i < tables.length; i++) {
@@ -44,6 +31,19 @@ function settings() {
             tables[i].style.display = '';
         }
     }, 2000);
+}
+// checks validity of the input field; if invalid, a pop up appears prompting resubmission
+// when valid - retrieves name and stores; displays welcome; removes hidden
+function submitName(event) {
+    var userName = document.getElementById("userName").value;
+    if (!userName) {
+        window.alert("Please submit your name!");
+        return;
+    }
+    var userName = document.getElementById("userName").value;
+    var outputDiv = document.getElementById("output");
+    outputDiv.innerHTML = "<h2>Welcome, " + userName + "!</h2>";
+    document.querySelector("table").classList.remove("hidden");
 }
 
 // allows the addition of a new section with input fields.
@@ -87,11 +87,6 @@ function removerow(table) {
 }
 
 function save() {
-    var userName = document.getElementById("userName").value;
-    if (!userName) {
-        window.alert("Please submit your name!");
-        return;
-    }
     const rows = document.querySelectorAll("#gradeTable tbody tr");
     const data = [];
     rows.forEach(row => {
@@ -129,7 +124,7 @@ window.onload = function () {
     loadInput();
 };
 
-document.getElementById('gradeTable').addEventListener('change', function (event) {
+document.getElementById('gradeTable').addEventListener('change', function(event) {
     if (event.target.type === 'checkbox') {
         let row = event.target.closest('tr');
         if (row) {
@@ -142,6 +137,8 @@ document.getElementById('gradeTable').addEventListener('change', function (event
         }
     }
 });
+    
+// VALADITY
 function checkGradesValidity() {
     var table = document.getElementById("gradeTable");
     var isValid = true;
@@ -172,25 +169,25 @@ function processUserData() {
     var courses = [];
 
     var table = document.getElementById("gradeTable");
-    for (var i = 0; i < table.rows.length; i++) {
-        var courseName = table.rows[i].cells[0].querySelector("input").value;
-        var gradePercentage = table.rows[i].cells[1].querySelector("input").value;
-        var sem2 = table.rows[i].cells[2].querySelector("#g2").value;
-        var isKAPAP = table.rows[i].cells[3].querySelector("input").checked;
-        var isDual = table.rows[i].cells[4].querySelector("#check2").checked;
+for (var i = 0; i < table.rows.length; i++) {
+    var courseName = table.rows[i].cells[0].querySelector("input").value;
+    var gradePercentage = table.rows[i].cells[1].querySelector("input").value;
+    var sem2 = table.rows[i].cells[2].querySelector("#g2").value;
+    var isKAPAP = table.rows[i].cells[3].querySelector("input").checked;
+    var isDual = table.rows[i].cells[4].querySelector("#check2").checked;
 
-        var course = {
-            courseName: courseName,
-            gradePercentage: gradePercentage,
-            sem2: sem2,
-            isKAPAP: isKAPAP
-        };
+    var course = {
+        courseName: courseName,
+        gradePercentage: gradePercentage,
+        sem2: sem2,
+        isKAPAP: isKAPAP
+    };
 
-        courses.push(course);
-    }
+    courses.push(course);
+}
 
-    console.log("User: " + userName);
-    console.log("Courses:", courses);
+console.log("User: " + userName);
+console.log("Courses:", courses);
 }
 
 // initailizes arrays
@@ -383,7 +380,7 @@ function toggleAudio() {
         readPageContent(); // Start speaking if not already speaking
     }
 }
-function reloadPage() {
+function reloadPage(){
     window.location.reload();
 }
 // iterates through each row and input
@@ -401,7 +398,6 @@ function readPageContent() {
     for (var i = 0; i < headers.length; i++) {
         content += headers[i].innerText + '\n';
     }
-
     var inputFields = document.querySelectorAll('input[type="text"], input[type="number"]');
     for (var i = 0; i < inputFields.length; i++) {
         content += inputFields[i].value + '\n';
@@ -431,38 +427,9 @@ function stopSpeaking() {
         utterance.onend = null; // Remove event listener for end
     }
 }
-function generatePDF() {
-    var doc = new jsPDF();
-
-    // Title
-    doc.setFontSize(18);
-    doc.text("Transcript", 14, 20);
-
-    // Generate table
-    var table = document.getElementById("gradeTable");
-    var rows = table.rows;
-    var colCount = rows[0].cells.length;
-
-    var data = [];
-    for (var i = 0; i < rows.length; i++) {
-        var rowData = [];
-        for (var j = 0; j < colCount; j++) {
-            rowData.push(rows[i].cells[j].querySelector("input, select").value);
-        }
-        data.push(rowData);
-    }
-
-    // Output as table
-    doc.autoTable({
-        head: [['Course Name', 'Semester 1', 'Semester 2', 'Honors/AP', 'Dual Credit']],
-        body: data,
-        startY: 30
-    });
-
-    // Save the PDF
-    doc.save('transcript.pdf');
-}
 const qaPairs = {
+    "How do I add a new course?": "To add a new course, click the 'Add Row' button at the bottom of the table.",
+    "How do I add a new course?": "To add a new course, click the 'Add Row' button at the bottom of the table.",
     "how do i add a new course?": "To add a new course, click the 'Add Row' button at the bottom of the table.",
     "how do i add a new course": "To add a new course, click the 'Add Row' button at the bottom of the table.",
     "how do i add a new class": "To add a new course, click the 'Add Row' button at the bottom of the table.",
@@ -474,15 +441,13 @@ const qaPairs = {
     "how do i select an academic course": "Do not click any check boxes. This sets the class to a 4 point or academic scale.",
     "what is a kap course?": "KAP courses are honor classes that are on a 5 point scale.",
     "what is an ap course?": "AP courses are advanced placement college level classes that are on a 5 point scale. ",
-    "What is an ap course?": "AP courses are advanced placement college level classes that are on a 5 point scale. ",
-    "what is an ap course": "AP courses are advanced placement college level classes that are on a 5 point scale. ",
     "what is a dual credit course?": "Dual credit courses allow you to earn both high school and college credits simultaneously."
 };
 
 function askQuestion() {
     const questionInput = document.getElementById("userQuestion");
     const questionText = questionInput.value.toLowerCase().trim();
-    const answerText = qaPairs[questionText] || "Currently, we do not have a solution for this specific problem. Try refering to our help menu above. If further assistance is needed, refer to this form: https://shorturl.at/miYcn";
+    const answerText = qaPairs[questionText] || `Currently, we do not have a solution for this specific problem. Try referring to our help menu above. If further assistance is needed, refer to this form: <a href="https://shorturl.at/miYcn" target="_blank">GPA Wizard Assistance Form</a>`;
 
     const qaDisplay = document.getElementById("qaDisplay");
     const questionDiv = document.createElement("div");
@@ -516,5 +481,9 @@ console.log(numClasses);
 console.log(scores);
 console.log(courseType);
 console.log(gpa);*/
+
+
+
+
 
 
